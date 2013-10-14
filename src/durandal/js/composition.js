@@ -40,10 +40,6 @@ define(['durandal/system', 'durandal/viewLocator', 'durandal/binder', 'durandal/
             child = ko.virtualElements.nextSibling(child);
         }
 
-        if(!state.activeView){
-            state.activeView = elements[0];
-        }
-
         return state;
     }
 
