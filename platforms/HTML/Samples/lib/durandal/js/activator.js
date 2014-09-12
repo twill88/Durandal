@@ -47,10 +47,6 @@ define(['durandal/system', 'knockout'], function (system, ko) {
         return settings;
     }
 
-    function hasChildRouter(instance) {
-        return instance && instance.router && instance.router.loadUrl;
-    }
-
     function invoke(target, method, data) {
         if (system.isArray(data)) {
             return target[method].apply(target, data);
@@ -59,7 +55,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
         return target[method](data);
     }
 
-    function processDeactivate(item, close, settings, dfd, setter) {
+    function deactivate(item, close, settings, dfd, setter) {
         if (item && item.deactivate) {
             system.log('Deactivating', item);
 
@@ -91,22 +87,6 @@ define(['durandal/system', 'knockout'], function (system, ko) {
 
             dfd.resolve(true);
         }
-    }
-
-    function deactivate(item, close, settings, dfd, setter) {
-        if (!hasChildRouter(item))
-            processDeactivate(item, close, settings, dfd, setter);
-        else
-            system.defer(function(dfd2){
-                var childItem = item.router.activeItem;
-                var childSettings = childItem.settings;
-                processDeactivate(childItem, childSettings.closeOnDeactivate, childSettings, dfd2);
-            }).promise().then(function(childDeactivateSucceeded){
-                if (childDeactivateSucceeded)
-                    processDeactivate(item, close, settings, dfd, setter);
-                else
-                    dfd.resolve(false);
-            });
     }
 
     function activate(newItem, activeItem, callback, activationData) {
@@ -257,20 +237,7 @@ define(['durandal/system', 'knockout'], function (system, ko) {
          * @return {promise}
          */
         computed.canDeactivateItem = function (item, close) {
-            if (!hasChildRouter(item))
-                return canDeactivateItem(item, close, settings);
-            else
-                return system.defer(function(dfd) {
-                    var childItem = item.router.activeItem;
-                    childItem.canDeactivateItem(childItem(), childItem.settings.closeOnDeactivate).then(function(canDeactivateChild) {
-                        if (canDeactivateChild)
-                            canDeactivateItem(item, close, settings).then(function(canDeactivate){
-                                dfd.resolve(canDeactivate);
-                            });
-                        else
-                            dfd.resolve(false);
-                    });
-                }).promise();
+            return canDeactivateItem(item, close, settings);
         };
 
         /**
