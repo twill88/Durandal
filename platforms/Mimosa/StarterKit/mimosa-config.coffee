@@ -1,17 +1,19 @@
 exports.config =
-  # 0.14.12 is needed for optimization to work properly
-  minMimosaVersion:'0.14.12'
+  minMimosaVersion:'2.0.0'
 
   modules: [
     'server'
     'require'
-    'minify'
+    'minify-js'
+    'minify-css'
     'live-reload'
     'combine'
     'requirebuild-include'
     'requirebuild-textplugin-include'
     'bower'
-    'lint'
+    'csslint'
+    'jshint'
+    'copy'
   ]
 
   watch:
@@ -34,6 +36,18 @@ exports.config =
           "docs/assets/css/bootstrap.css"
           "docs/assets/css/bootstrap-responsive.css"
         ]
+        "font-awesome": [
+          { font: "../../font" }
+          "css/font-awesome.css"
+          "css/font-awesome-ie7.css"
+        ]
+        "durandal": [
+          {
+            img: "../../images"
+            js: "durandal"
+            css: "durandal"
+          }
+        ]
 
   combine:
     folders: [
@@ -43,8 +57,8 @@ exports.config =
         order: [
           'vendor/bootstrap/bootstrap.css'
           'vendor/bootstrap/bootstrap-responsive.css'
-          'vendor/font-awesome.css'
-          'durandal.css'
+          'vendor/font-awesome/font-awesome.css'
+          'vendor/durandal/durandal.css'
           'starterkit.css'
         ]
       }

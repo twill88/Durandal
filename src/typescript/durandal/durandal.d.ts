@@ -1,5 +1,5 @@
 /**
- * Durandal 2.0.0 Copyright (c) 2012 Blue Spire Consulting, Inc. All Rights Reserved.
+ * Durandal 2.1.0 Copyright (c) 2012 Blue Spire Consulting, Inc. All Rights Reserved.
  * Available via the MIT license.
  * see: http://durandaljs.com or https://github.com/BlueSpire/Durandal for details.
  */
@@ -7,199 +7,206 @@
 /// <reference path="../jquery/jquery.d.ts" />
 /// <reference path="../knockout/knockout.d.ts" />
 
+/* tslint:disable */
+
 /**
  * The system module encapsulates the most basic features used by other modules.
  * @requires require
  * @requires jquery
  */
 declare module 'durandal/system' {
+    var theModule: DurandalSystemModule;
+    export = theModule;
+}
+
+interface DurandalSystemModule {
     /**
      * Durandal's version.
      */
-    export var version: string;
+    version: string;
 
     /**
      * A noop function.
      */
-    export var noop: Function;
+    noop: Function;
 
     /**
      * Gets the module id for the specified object.
      * @param {object} obj The object whose module id you wish to determine.
      * @returns {string} The module id.
      */
-    export function getModuleId(obj: any): string;
+    getModuleId(obj: any): string;
 
     /**
      * Sets the module id for the specified object.
      * @param {object} obj The object whose module id you wish to set.
      * @param {string} id The id to set for the specified object.
      */
-    export function setModuleId(obj, id: string): void;
+    setModuleId(obj, id: string): void;
 
     /**
      * Resolves the default object instance for a module. If the module is an object, the module is returned. If the module is a function, that function is called with `new` and it's result is returned.
      * @param {object} module The module to use to get/create the default object for.
      * @returns {object} The default object for the module.
      */
-    export function resolveObject(module: any): any;
+    resolveObject(module: any): any;
 
     /**
      * Gets/Sets whether or not Durandal is in debug mode.
      * @param {boolean} [enable] Turns on/off debugging.
      * @returns {boolean} Whether or not Durandal is current debugging.
      */
-    export function debug(enable?: boolean): boolean;
+    debug(enable?: boolean): boolean;
 
     /**
      * Logs data to the console. Pass any number of parameters to be logged. Log output is not processed if the framework is not running in debug mode.
      * @param {object} info* The objects to log.
      */
-    export function log(...msgs: any[]): void;
+    log(...msgs: any[]): void;
 
     /**
      * Logs an error.
      * @param {string} obj The error to report.
      */
-    export function error(error: string): void;
+    error(error: string): void;
 
     /**
      * Logs an error.
      * @param {Error} obj The error to report.
      */
-    export function error(error: Error): void;
+    error(error: Error): void;
 
     /**
      * Asserts a condition by throwing an error if the condition fails.
      * @param {boolean} condition The condition to check.
      * @param {string} message The message to report in the error if the condition check fails.
      */
-    export function assert(condition: boolean, message: string): void;
+    assert(condition: boolean, message: string): void;
 
     /**
      * Creates a deferred object which can be used to create a promise. Optionally pass a function action to perform which will be passed an object used in resolving the promise.
      * @param {function} [action] The action to defer. You will be passed the deferred object as a paramter.
      * @returns {JQueryDeferred} The deferred object.
      */
-    export function defer<T>(action?: (dfd: JQueryDeferred<T>) => void ): JQueryDeferred<T>;
+    defer<T>(action?: (dfd: JQueryDeferred<T>) => void): JQueryDeferred<T>;
 
     /**
      * Creates a simple V4 UUID. This should not be used as a PK in your database. It can be used to generate internal, unique ids. For a more robust solution see [node-uuid](https://github.com/broofa/node-uuid).
      * @returns {string} The guid.
      */
-    export function guid(): string;
+    guid(): string;
 
     /**
      * Uses require.js to obtain a module. This function returns a promise which resolves with the module instance.
      * @param {string} moduleId The id of the module to load.
      * @returns {JQueryPromise} A promise for the loaded module.
      */
-    export function acquire(moduleId: string): JQueryPromise<any>;
+    acquire(moduleId: string): JQueryPromise<any>;
 
     /**
      * Uses require.js to obtain an array of modules. This function returns a promise which resolves with the modules instances in an array.
      * @param {string[]} moduleIds The ids of the modules to load.
      * @returns {JQueryPromise} A promise for the loaded module.
      */
-    export function acquire(modules: string[]): JQueryPromise<any[]>;
+    acquire(modules: string[]): JQueryPromise<any[]>;
 
     /**
      * Uses require.js to obtain multiple modules. This function returns a promise which resolves with the module instances in an array.
      * @param {string} moduleIds* The ids of the modules to load.
      * @returns {JQueryPromise} A promise for the loaded module.
      */
-    export function acquire(...moduleIds: string[]): JQueryPromise<any[]>;
+    acquire(...moduleIds: string[]): JQueryPromise<any[]>;
 
     /**
      * Extends the first object with the properties of the following objects.
      * @param {object} obj The target object to extend.
      * @param {object} extension* Uses to extend the target object.
     */
-    export function extend(obj: any, ...extensions: any[]): any;
-    
+    extend(obj: any, ...extensions: any[]): any;
+
     /**
      * Uses a setTimeout to wait the specified milliseconds.
      * @param {number} milliseconds The number of milliseconds to wait.
      * @returns {JQueryPromise}
     */
-    export function wait(milliseconds: number): JQueryPromise;
+    wait(milliseconds: number): JQueryPromise<any>;
 
     /**
      * Gets all the owned keys of the specified object.
      * @param {object} object The object whose owned keys should be returned.
      * @returns {string[]} The keys.
      */
-    export function keys(obj: any): string[];
+    keys(obj: any): string[];
 
     /**
      * Determines if the specified object is an html element.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isElement(obj: any): boolean;
+    isElement(obj: any): boolean;
 
     /**
      * Determines if the specified object is an array.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isArray(obj: any): boolean;
+    isArray(obj: any): boolean;
 
     /**
      * Determines if the specified object is a boolean.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isObject(obj: any): boolean;
+    isObject(obj: any): boolean;
 
     /**
      * Determines if the specified object is a promise.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isPromise(obj: any): boolean;
+    isPromise(obj: any): boolean;
 
     /**
      * Determines if the specified object is a function arguments object.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isArguments(obj: any): boolean;
+    isArguments(obj: any): boolean;
 
     /**
      * Determines if the specified object is a function.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isFunction(obj: any): boolean;
+    isFunction(obj: any): boolean;
 
     /**
      * Determines if the specified object is a string.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isString(obj: any): boolean;
+    isString(obj: any): boolean;
 
     /**
      * Determines if the specified object is a number.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isNumber(obj: any): boolean;
+    isNumber(obj: any): boolean;
 
     /**
      * Determines if the specified object is a date.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isDate(obj: any): boolean;
+    isDate(obj: any): boolean;
 
     /**
      * Determines if the specified object is a boolean.
      * @param {object} object The object to check.
      * @returns {boolean} True if matches the type, false otherwise.
      */
-    export function isBoolean(obj: any): boolean;
+    isBoolean(obj: any): boolean;
 }
 
 /**
@@ -208,66 +215,91 @@ declare module 'durandal/system' {
  * @requires jquery
  */
 declare module 'durandal/viewEngine' {
+    var theModule: DurandalViewEngineModule;
+    export = theModule;
+}
+
+interface DurandalViewEngineModule {
     /**
      * The file extension that view source files are expected to have.
      * @default .html
     */
-    export var viewExtension: string;
+    viewExtension: string;
 
     /**
      * The name of the RequireJS loader plugin used by the viewLocator to obtain the view source. (Use requirejs to map the plugin's full path).
      * @default text
     */
-    export var viewPlugin: string;
+    viewPlugin: string;
+
+    /**
+    * Parameters passed to the RequireJS loader plugin used by the viewLocator to obtain the view source.
+    * @default The empty string by default.
+    */
+    viewPluginParameters: string;
 
     /**
      * Determines if the url is a url for a view, according to the view engine.
      * @param {string} url The potential view url.
      * @returns {boolean} True if the url is a view url, false otherwise.
     */
-    export function isViewUrl(url: string):boolean;
-    
+    isViewUrl(url: string): boolean;
+
     /**
      * Converts a view url into a view id.
      * @param {string} url The url to convert.
      * @returns {string} The view id.
     */
-    export function convertViewUrlToViewId(url: string): string;
+    convertViewUrlToViewId(url: string): string;
 
     /**
      * Converts a view id into a full RequireJS path.
      * @param {string} viewId The view id to convert.
      * @returns {string} The require path.
     */
-    export function convertViewIdToRequirePath(viewId: string): string;
+    convertViewIdToRequirePath(viewId: string): string;
 
     /**
      * Parses the view engine recognized markup and returns DOM elements.
      * @param {string} markup The markup to parse.
      * @returns {HTMLElement[]} The elements.
     */
-    export function parseMarkup(markup: string):Node[];
+    parseMarkup(markup: string): Node[];
 
     /**
      * Calls `parseMarkup` and then pipes the results through `ensureSingleElement`.
      * @param {string} markup The markup to process.
      * @returns {HTMLElement} The view.
     */
-    export function processMarkup(markup: string): HTMLElement;
+    processMarkup(markup: string): HTMLElement;
 
     /**
      * Converts an array of elements into a single element. White space and comments are removed. If a single element does not remain, then the elements are wrapped.
      * @param {HTMLElement[]} allElements The elements.
      * @returns {HTMLElement} A single element.
     */
-    export function ensureSingleElement(allElements: Node[]): HTMLElement;
+    ensureSingleElement(allElements: Node[]): HTMLElement;
+
+    /**
+    * Gets the view associated with the id from the cache of parsed views.
+    * @param {string} id The view id to lookup in the cache.
+    * @return {DOMElement|null} The cached view or null if it's not in the cache.
+    */
+    tryGetViewFromCache(id: string): HTMLElement;
+
+    /**
+     * Puts the view associated with the id into the cache of parsed views.
+     * @param {string} id The view id whose view should be cached.
+     * @param {DOMElement} view The view to cache.
+     */
+    putViewInCache(id:string, view:HTMLElement);
 
     /**
      * Creates the view associated with the view id.
      * @param {string} viewId The view id whose view should be created.
      * @returns {JQueryPromise<HTMLElement>} A promise of the view.
     */
-    export function createView(viewId: string): JQueryPromise<HTMLElement>;
+    createView(viewId: string): JQueryPromise<HTMLElement>;
 
     /**
      * Called when a view cannot be found to provide the opportunity to locate or generate a fallback view. Mainly used to ease development.
@@ -276,7 +308,7 @@ declare module 'durandal/viewEngine' {
      * @param {Error} requirePath The error that was returned from the attempt to locate the default view.
      * @returns {Promise} A promise for the fallback view.
     */
-    export function createFallbackView(viewId: string, requirePath: string, err: Error): JQueryPromise<HTMLElement>;
+    createFallbackView(viewId: string, requirePath: string, err: Error): JQueryPromise<HTMLElement>;
 }
 
 /**
@@ -285,62 +317,8 @@ declare module 'durandal/viewEngine' {
  * @requires system
  */
 declare module 'durandal/events' {
-    import ts = require('durandal/typescript');
-
-    /**
-     * Creates an object with eventing capabilities.
-     * @class Events
-    */
-    class Events {
-        constructor();
-
-        /**
-         * Creates a subscription or registers a callback for the specified event.
-         * @param {string} events One or more events, separated by white space.
-         * @returns {Subscription} A subscription is returned.
-         */
-        on(events: string): ts.EventSubscription;
-
-        /**
-         * Creates a subscription or registers a callback for the specified event.
-         * @param {string} events One or more events, separated by white space.
-         * @param {function} [callback] The callback function to invoke when the event is triggered.
-         * @param {object} [context] An object to use as `this` when invoking the `callback`.
-         * @returns {Events} The events object is returned for chaining.
-         */
-        on(events: string, callback: Function, context?: any): Events;
-
-        /**
-         * Removes the callbacks for the specified events.
-         * @param {string} [events] One or more events, separated by white space to turn off. If no events are specified, then the callbacks will be removed.
-         * @param {function} [callback] The callback function to remove. If `callback` is not provided, all callbacks for the specified events will be removed.
-         * @param {object} [context] The object that was used as `this`. Callbacks with this context will be removed.
-         * @chainable
-         */
-        off(events: string, callback: Function, context?: any): Events;
-
-        /**
-         * Triggers the specified events.
-         * @param {string} [events] One or more events, separated by white space to trigger.
-         * @chainable
-         */
-        trigger(events: string, ...eventArgs: any[]): Events;
-
-        /**
-         * Creates a function that will trigger the specified events when called. Simplifies proxying jQuery (or other) events through to the events object.
-         * @param {string} events One or more events, separated by white space to trigger by invoking the returned function.
-         * @returns {function} Calling the function will invoke the previously specified events on the events object.
-         */
-        proxy(events: string): Function;
-
-        /**
-         * Adds eventing capabilities to the specified object.
-         * @param {object} targetObject The object to add eventing capabilities to.
-         */
-        static includeIn(targetObject: any): void;
-    }
-
-    export = Events;
+    var theModule: DurandalEventModule;
+    export = theModule;
 }
 
 /**
@@ -359,7 +337,7 @@ declare module 'durandal/binder' {
      * @param {DOMElement} view The view that is about to be bound.
      * @param {object} instruction The object that carries the binding instructions.
     */
-    export var binding: (data:any, view:HTMLElement, instruction:BindingInstruction) => void;
+    export var binding: (data: any, view: HTMLElement, instruction: BindingInstruction) => void;
 
     /**
      * Called after every binding operation. Does nothing by default.
@@ -387,9 +365,10 @@ declare module 'durandal/binder' {
      * @param {KnockoutBindingContext} bindingContext The current binding context.
      * @param {DOMElement} view The view to bind.
      * @param {object} [obj] The data to bind to, causing the creation of a child binding context if present.
+     * @param {string} [dataAlias] An alias for $data if present.
     */
-    export function bindContext(bindingContext: KnockoutBindingContext, view: HTMLElement, obj?: any): BindingInstruction;
-    
+    export function bindContext(bindingContext: KnockoutBindingContext, view: HTMLElement, obj?: any, dataAlias?: string): BindingInstruction;
+
     /**
      * Binds the view, preserving the existing binding context. Optionally, a new context can be created, parented to the previous context.
      * @param {object} obj The data to bind to.
@@ -407,136 +386,12 @@ declare module 'durandal/binder' {
  * @requires knockout
  */
 declare module 'durandal/activator' {
-    interface ActivatorSettings {
-        /**
-         * The default value passed to an object's deactivate function as its close parameter.
-         * @default true
-        */
-        closeOnDeactivate: boolean;
-
-        /**
-         * Lower-cased words which represent a truthy value.
-         * @default ['yes', 'ok', 'true']
-        */
-        affirmations: string[];
-
-        /**
-         * Interprets the response of a `canActivate` or `canDeactivate` call using the known affirmative values in the `affirmations` array.
-         * @param {object} value
-         * @returns {boolean}
-        */
-        interpretResponse(value: any): boolean;
-
-        /**
-         * Determines whether or not the current item and the new item are the same.
-         * @param {object} currentItem
-         * @param {object} newItem
-         * @param {object} currentActivationData
-         * @param {object} newActivationData
-         * @returns {boolean}
-        */
-        areSameItem(currentItem: any, newItem: any, currentActivationData: any, newActivationData: any): boolean;
-
-        /**
-         * Called immediately before the new item is activated.
-         * @param {object} newItem
-        */
-        beforeActivate(newItem: any): any;
-
-        /**
-         * Called immediately after the old item is deactivated.
-         * @param {object} oldItem The previous item.
-         * @param {boolean} close Whether or not the previous item was closed.
-         * @param {function} setter The activate item setter function.
-        */
-        afterDeactivate(oldItem: any, close: boolean, setter: Function): void;
-    }
-
-    interface Activator<T> extends KnockoutComputed<T> {
-        /**
-         * The settings for this activator.
-        */
-        settings: ActivatorSettings;
-
-        /**
-         * An observable which indicates whether or not the activator is currently in the process of activating an instance.
-         * @returns {boolean}
-        */
-        isActivating: KnockoutObservable<boolean>;
-        
-        /**
-         * Determines whether or not the specified item can be deactivated.
-         * @param {object} item The item to check.
-         * @param {boolean} close Whether or not to check if close is possible.
-         * @returns {promise}
-        */
-        canDeactivateItem(item: T, close: boolean): JQueryPromise<boolean>;
-
-        /**
-         * Deactivates the specified item.
-         * @param {object} item The item to deactivate.
-         * @param {boolean} close Whether or not to close the item.
-         * @returns {promise}
-        */
-        deactivateItem(item: T, close: boolean): JQueryPromise<boolean>;
-
-        /**
-         * Determines whether or not the specified item can be activated.
-         * @param {object} item The item to check.
-         * @param {object} activationData Data associated with the activation.
-         * @returns {promise}
-        */
-        canActivateItem(newItem: T, activationData?: any): JQueryPromise<boolean>;
-
-        /**
-         * Activates the specified item.
-         * @param {object} newItem The item to activate.
-         * @param {object} newActivationData Data associated with the activation.
-         * @returns {promise}
-        */
-        activateItem(newItem: T, activationData?: any): JQueryPromise<boolean>;
-
-        /**
-         * Determines whether or not the activator, in its current state, can be activated.
-         * @returns {promise}
-        */
-        canActivate(): JQueryPromise<boolean>;
-
-        /**
-         * Activates the activator, in its current state.
-         * @returns {promise}
-        */
-        activate(): JQueryPromise<boolean>;
-
-        /**
-         * Determines whether or not the activator, in its current state, can be deactivated.
-         * @returns {promise}
-        */
-        canDeactivate(close: boolean): JQueryPromise<boolean>;
-
-        /**
-         * Deactivates the activator, in its current state.
-         * @returns {promise}
-        */
-        deactivate(close: boolean): JQueryPromise<boolean>;
-
-        /**
-          * Adds canActivate, activate, canDeactivate and deactivate functions to the provided model which pass through to the corresponding functions on the activator.
-          */
-        includeIn(includeIn: any): void;
-
-        /**
-          * Sets up a collection representing a pool of objects which the activator will activate. See below for details. Activators without an item bool always close their values on deactivate. Activators with an items pool only deactivate, but do not close them.
-          */
-        forItems(items): Activator<T>;
-    }
-
     /**
      * The default settings used by activators.
      * @property {ActivatorSettings} defaults
     */
-    export var defaults: ActivatorSettings;
-    
+    export var defaults: DurandalActivatorSettings;
+
     /**
     * Creates a new activator.
      * @method create
@@ -544,7 +399,7 @@ declare module 'durandal/activator' {
      * @param {ActivatorSettings} [settings] Per activator overrides of the default activator settings.
      * @returns {Activator} The created activator.
     */
-    export function create<T>(initialActiveItem?: T, settings?: ActivatorSettings): Activator<T>;
+    export function create<T>(initialActiveItem?: T, settings?: DurandalActivatorSettings): DurandalActivator<T>;
 
     /**
      * Determines whether or not the provided object is an activator or not.
@@ -561,14 +416,19 @@ declare module 'durandal/activator' {
  * @requires viewEngine
  */
 declare module 'durandal/viewLocator' {
+    var theModule: DurandalViewLocatorModule;
+    export = theModule;
+}
+
+interface DurandalViewLocatorModule {
     /**
      * Allows you to set up a convention for mapping module folders to view folders. It is a convenience method that customizes `convertModuleIdToViewId` and `translateViewIdToArea` under the covers.
      * @param {string} [modulesPath] A string to match in the path and replace with the viewsPath. If not specified, the match is 'viewmodels'.
      * @param {string} [viewsPath] The replacement for the modulesPath. If not specified, the replacement is 'views'.
      * @param {string} [areasPath] Partial views are mapped to the "views" folder if not specified. Use this parameter to change their location.
     */
-    export function useConvention(modulesPath?: string, viewsPath?: string, areasPath?: string): void;
-    
+    useConvention(modulesPath?: string, viewsPath?: string, areasPath?: string): void;
+
     /**
      * Maps an object instance to a view instance.
      * @param {object} obj The object to locate the view for.
@@ -576,21 +436,21 @@ declare module 'durandal/viewLocator' {
      * @param {DOMElement[]} [elementsToSearch] An existing set of elements to search first.
      * @returns {Promise} A promise of the view.
     */
-    export function locateViewForObject(obj: any, area:string, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
-    
+    locateViewForObject(obj: any, area: string, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
+
     /**
      * Converts a module id into a view id. By default the ids are the same.
      * @param {string} moduleId The module id.
      * @returns {string} The view id.
     */
-    export function convertModuleIdToViewId(moduleId: string): string;
+    convertModuleIdToViewId(moduleId: string): string;
 
     /**
      * If no view id can be determined, this function is called to genreate one. By default it attempts to determine the object's type and use that.
      * @param {object} obj The object to determine the fallback id for.
      * @returns {string} The view id.
     */
-    export function determineFallbackViewId(obj: any): string;
+    determineFallbackViewId(obj: any): string;
 
     /**
      * Takes a view id and translates it into a particular area. By default, no translation occurs.
@@ -598,8 +458,8 @@ declare module 'durandal/viewLocator' {
      * @param {string} area The area to translate the view to.
      * @returns {string} The translated view id.
     */
-    export function translateViewIdToArea(viewId: string, area: string): string;
-    
+    translateViewIdToArea(viewId: string, area: string): string;
+
     /**
      * Locates the specified view.
      * @param {string|DOMElement} view A view. It will be immediately returned.
@@ -607,8 +467,8 @@ declare module 'durandal/viewLocator' {
      * @param {DOMElement[]} [elementsToSearch] An existing set of elements to search first.
      * @returns {Promise} A promise of the view.
     */
-    export function locateView(view: HTMLElement, area?: string, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
-    
+    locateView(view: HTMLElement, area?: string, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
+
     /**
      * Locates the specified view.
      * @param {string|DOMElement} viewUrlOrId A view url or view id to locate.
@@ -616,7 +476,7 @@ declare module 'durandal/viewLocator' {
      * @param {DOMElement[]} [elementsToSearch] An existing set of elements to search first.
      * @returns {Promise} A promise of the view.
     */
-    export function locateView(viewUrlOrId: string, area?: string, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
+    locateView(viewUrlOrId: string, area?: string, elementsToSearch?: HTMLElement[]): JQueryPromise<HTMLElement>;
 }
 
 /**
@@ -657,7 +517,7 @@ declare module 'durandal/composition' {
         binding?: (child: HTMLElement, parent: HTMLElement, context: CompositionContext) => void;
         attached?: (child: HTMLElement, parent: HTMLElement, context: CompositionContext) => void;
         compositionComplete?: (child: HTMLElement, parent: HTMLElement, context: CompositionContext) => void;
-        tranistion?: string;
+        transition?: string;
     }
 
     /**
@@ -725,100 +585,8 @@ declare module 'durandal/composition' {
  * @requires jquery
  */
 declare module 'durandal/app' {
-    import Events = require('durandal/events');
-    import ts = require('durandal/typescript');
-
-    /**
-     * The title of your application.
-    */
-    export var title: string;
-    
-    /**
-     * Shows a dialog via the dialog plugin.
-     * @param {object|string} obj The object (or moduleId) to display as a dialog.
-     * @param {object} [activationData] The data that should be passed to the object upon activation.
-     * @param {string} [context] The name of the dialog context to use. Uses the default context if none is specified.
-     * @returns {Promise} A promise that resolves when the dialog is closed and returns any data passed at the time of closing.
-    */
-    export function showDialog(obj: any, activationData?: any, context?: string):JQueryPromise;
-
-    /**
-     * Shows a message box via the dialog plugin.
-     * @param {string} message The message to display in the dialog.
-     * @param {string} [title] The title message.
-     * @param {string[]} [options] The options to provide to the user.
-     * @returns {Promise} A promise that resolves when the message box is closed and returns the selected option.
-    */
-    export function showMessage(message: string, title?: string, options?: string[]): JQueryPromise<string>;
-    
-    /**
-     * Configures one or more plugins to be loaded and installed into the application.
-     * @method configurePlugins
-     * @param {object} config Keys are plugin names. Values can be truthy, to simply install the plugin, or a configuration object to pass to the plugin.
-     * @param {string} [baseUrl] The base url to load the plugins from.
-    */
-    export function configurePlugins(config: Object, baseUrl?: string): void;
-
-    /**
-     * Starts the application.
-     * @returns {promise}
-    */
-    export function start(): JQueryPromise;
-
-    /**
-     * Sets the root module/view for the application.
-     * @param {string} root The root view or module.
-     * @param {string} [transition] The transition to use from the previous root (or splash screen) into the new root.
-     * @param {string} [applicationHost] The application host element id. By default the id 'applicationHost' will be used.
-    */
-    export function setRoot(root: any, transition?: string, applicationHost?: string): void;
-
-    /**
-     * Sets the root module/view for the application.
-     * @param {string} root The root view or module.
-     * @param {string} [transition] The transition to use from the previous root (or splash screen) into the new root.
-     * @param {string} [applicationHost] The application host element. By default the id 'applicationHost' will be used.
-    */
-    export function setRoot(root: any, transition?: string, applicationHost?: HTMLElement): void;
-
-    /**
-     * Creates a subscription or registers a callback for the specified event.
-     * @param {string} events One or more events, separated by white space.
-     * @returns {Subscription} A subscription is returned.
-     */
-    export function on(events: string): ts.EventSubscription;
-
-    /**
-     * Creates a subscription or registers a callback for the specified event.
-     * @param {string} events One or more events, separated by white space.
-     * @param {function} [callback] The callback function to invoke when the event is triggered.
-     * @param {object} [context] An object to use as `this` when invoking the `callback`.
-     * @returns {Events} The events object is returned for chaining.
-     */
-    export function on(events: string, callback: Function, context?: any): Events;
-
-    /**
-     * Removes the callbacks for the specified events.
-     * @param {string} [events] One or more events, separated by white space to turn off. If no events are specified, then the callbacks will be removed.
-     * @param {function} [callback] The callback function to remove. If `callback` is not provided, all callbacks for the specified events will be removed.
-     * @param {object} [context] The object that was used as `this`. Callbacks with this context will be removed.
-     * @chainable
-     */
-    export function off(events: string, callback: Function, context?: any): Events;
-
-    /**
-     * Triggers the specified events.
-     * @param {string} [events] One or more events, separated by white space to trigger.
-     * @chainable
-     */
-    export function trigger(events: string, ...eventArgs:any[]): Events;
-
-    /**
-     * Creates a function that will trigger the specified events when called. Simplifies proxying jQuery (or other) events through to the events object.
-     * @param {string} events One or more events, separated by white space to trigger by invoking the returned function.
-     * @returns {function} Calling the function will invoke the previously specified events on the events object.
-     */
-    export function proxy(events: string): Function;
+    var theModule: DurandalAppModule;
+    export = theModule;
 }
 
 /**
@@ -832,7 +600,6 @@ declare module 'durandal/app' {
  * @requires knockout
  */
 declare module 'plugins/dialog' {
-    import activator = require('durandal/activator');
     import composition = require('durandal/composition');
 
     /**
@@ -840,19 +607,26 @@ declare module 'plugins/dialog' {
     * @class
     */
     class Box {
-        constructor(message: string, title: string, options: string[]);
+        constructor(message: string, title?: string, options?: string[], autoclose?: boolean, settings?: Object);
 
         /**
          * Selects an option and closes the message box, returning the selected option through the dialog system's promise.
          * @param {string} dialogResult The result to select.
          */
-        selectOptions(dialogResult: string): void;
+        selectOption(dialogResult: string): void;
 
         /**
          * Provides the view to the composition system.
          * @returns {DOMElement} The view of the message box.
          */
         getView(): HTMLElement;
+
+        /**
+         * Configures a custom view to use when displaying message boxes.
+         * @method setViewUrl
+         * @param {string} viewUrl The view url relative to the base url which the view locator will use to find the message box's view.
+         */
+        static setViewUrl(viewUrl: string): void;
 
         /**
          * The title to be used for the message box if one is not provided.
@@ -862,24 +636,23 @@ declare module 'plugins/dialog' {
         static defaultTitle: string;
 
         /**
-         * The options to display in the message box of none are specified.
+         * The options to display in the message box if none are specified.
          * @default ['Ok']
          * @static
          */
         static defaultOptions: string[];
 
         /**
-         * The markup for the message box's view.
-         * @static
-         */
-        static defaultViewMarkup: string;
+        * Sets the classes and styles used throughout the message box markup.
+        * @method setDefaults
+        * @param {object} settings A settings object containing the following optional properties: buttonClass, primaryButtonClass, secondaryButtonClass, class, style.
+        */
+        static setDefaults(settings: Object): void;
 
         /**
-         * Configures a custom view to use when displaying message boxes.
-         * @param {string} viewUrl The view url relative to the base url which the view locator will use to find the message box's view.
-         * @static
+         * The markup for the message box's view.
          */
-        static setViewUrl(url:string):void;
+        static defaultViewMarkup: string;
     }
 
     interface DialogContext {
@@ -907,8 +680,8 @@ declare module 'plugins/dialog' {
     interface Dialog {
         owner: any;
         context: DialogContext;
-        activator: activator.Activator<any>;
-        close(): JQueryPromise;
+        activator: DurandalActivator<any>;
+        close(): JQueryPromise<any>;
         settings: composition.CompositionContext;
     }
 
@@ -947,7 +720,7 @@ declare module 'plugins/dialog' {
      * @param {DialogContext} dialogContext The context to add.
     */
     export function addContext(name: string, modalContext: DialogContext): void;
-    
+
     /**
      * Gets the dialog model that is associated with the specified object.
      * @param {object} obj The object for whom to retrieve the dialog.
@@ -958,9 +731,9 @@ declare module 'plugins/dialog' {
     /**
      * Closes the dialog associated with the specified object.
      * @param {object} obj The object whose dialog should be closed.
-     * @param {object} result* The results to return back to the dialog caller after closing.
+     * @param {object} results* The results to return back to the dialog caller after closing.
     */
-    export function close(obj: any): void;
+    export function close(obj: any, ...results: any[]): void;
 
     /**
      * Shows a dialog.
@@ -969,20 +742,33 @@ declare module 'plugins/dialog' {
      * @param {string} [context] The name of the dialog context to use. Uses the default context if none is specified.
      * @returns {Promise} A promise that resolves when the dialog is closed and returns any data passed at the time of closing.
     */
-    export function show(obj: any, activationData?: any, context?: string): JQueryPromise;
+    export function show(obj: any, activationData?: any, context?: string): JQueryPromise<any>;
 
     /**
      * Shows a message box.
      * @param {string} message The message to display in the dialog.
      * @param {string} [title] The title message.
      * @param {string[]} [options] The options to provide to the user.
+     * @param {boolean} [autoclose] Automatically close the the message box when clicking outside?
+     * @param {Object} [settings] Custom settings for this instance of the messsage box, used to change classes and styles.
      * @returns {Promise} A promise that resolves when the message box is closed and returns the selected option.
     */
-    export function showMessage(message: string, title?: string, options?: string[]): JQueryPromise<string>;
+    export function showMessage(message: string, title?: string, options?: string[], autoclose?: boolean, settings?: Object): JQueryPromise<string>;
+
+    /**
+     * Shows a message box.
+     * @param {string} message The message to display in the dialog.
+     * @param {string} [title] The title message.
+     * @param {DialogButton[]} [options] The options to provide to the user.
+     * @param {boolean} [autoclose] Automatically close the the message box when clicking outside?
+     * @param {Object} [settings] Custom settings for this instance of the messsage box, used to change classes and styles.
+     * @returns {Promise} A promise that resolves when the message box is closed and returns the selected option.
+    */
+    export function showMessage(message: string, title?: string, options?: DialogButton[], autoclose?: boolean, settings?: Object): JQueryPromise<any>;
 
     /**
      * Installs this module into Durandal; called by the framework. Adds `app.showDialog` and `app.showMessage` convenience methods.
-     * @param {object} [config] Add a `messageBox` property to supply a custom message box constructor. Add a `messageBoxView` property to supply custom view markup for the built-in message box.
+     * @param {object} [config] Add a `messageBox` property to supply a custom message box constructor. Add a `messageBoxView` property to supply custom view markup for the built-in message box. You can also use messageBoxViewUrl to specify the view url.
     */
     export function install(config: Object): void;
 }
@@ -993,41 +779,6 @@ declare module 'plugins/dialog' {
  * @requires jquery
  */
 declare module 'plugins/history' {
-    interface HistoryOptions {
-        /**
-         * The function that will be called back when the fragment changes.
-         */
-        routeHandler: (fragment: string) => void;
-
-        /**
-         * The url root used to extract the fragment when using push state.
-         */
-        root?: string;
-
-        /**
-         * Use hash change when present.
-         * @default true
-         */
-        hashChange?: boolean;
-
-        /**
-         * Use push state when present.
-         * @default false
-         */
-        pushState?: boolean;
-
-        /**
-         * Prevents loading of the current url when activating history.
-         * @default false
-         */
-        silent?: boolean;
-    }
-
-    interface NavigationOptions {
-        trigger: boolean;
-        replace: boolean;
-    }
-
     /**
      * The setTimeout interval used when the browser does not support hash change events.
      * @default 50
@@ -1059,7 +810,7 @@ declare module 'plugins/history' {
      * @param {HistoryOptions} options.
      * @returns {boolean|undefined} Returns true/false from loading the url unless the silent option was selected.
      */
-    export function activate(options: HistoryOptions): boolean;
+    export function activate(options: DurandalHistoryOptions): boolean;
 
     /**
      * Disable history, perhaps temporarily. Not useful in a real app, but possibly useful for unit testing Routers.
@@ -1102,7 +853,7 @@ declare module 'plugins/history' {
      * @param {object|boolean} options An options object with optional trigger and replace flags. You can also pass a boolean directly to set the trigger option. Trigger is `true` by default.
      * @return {boolean} Returns true/false from loading the url.
      */
-    export function navigate(fragment: string, options: NavigationOptions): boolean;
+    export function navigate(fragment: string, options: DurandalNavigationOptions): boolean;
 
     /**
      * Navigates back in the browser history.
@@ -1121,31 +872,61 @@ declare module 'plugins/http' {
      * @default callback
     */
     export var callbackParam: string;
-    
+
+    /**
+    * Converts the data to JSON.
+    * @param {object} data The data to convert to JSON.
+    * @return {string} JSON.
+    */
+    export function toJSON(data: Object): string;
+
     /**
      * Makes an HTTP GET request.
      * @param {string} url The url to send the get request to.
      * @param {object} [query] An optional key/value object to transform into query string parameters.
+     * @param {object} [headers] The data to add to the request header.  It will be converted to JSON. If the data contains Knockout observables, they will be converted into normal properties before serialization.
      * @returns {Promise} A promise of the get response data.
     */
-    export function get(url: string, query?: Object): JQueryPromise;
+    export function get(url: string, query?: Object, headers?: Object): JQueryPromise<any>;
 
     /**
      * Makes an JSONP request.
      * @param {string} url The url to send the get request to.
      * @param {object} [query] An optional key/value object to transform into query string parameters.
      * @param {string} [callbackParam] The name of the callback parameter the api expects (overrides the default callbackParam).
+     * @param {object} [headers] The data to add to the request header.  It will be converted to JSON. If the data contains Knockout observables, they will be converted into normal properties before serialization.
      * @returns {Promise} A promise of the response data.
     */
-    export function jsonp(url: string, query?: Object, callbackParam?: string): JQueryPromise;
-    
+    export function jsonp(url: string, query?: Object, callbackParam?: string, headers?: Object): JQueryPromise<any>;
+
     /**
      * Makes an HTTP POST request.
      * @param {string} url The url to send the post request to.
      * @param {object} data The data to post. It will be converted to JSON. If the data contains Knockout observables, they will be converted into normal properties before serialization.
+     * @param {object} [headers] The data to add to the request header.  It will be converted to JSON. If the data contains Knockout observables, they will be converted into normal properties before serialization.
      * @returns {Promise} A promise of the response data.
     */
-    export function post(url: string, data: Object): JQueryPromise;
+    export function post(url: string, data: Object, headers?: Object): JQueryPromise<any>;
+
+    /**
+    * Makes an HTTP PUT request.
+    * @method put
+    * @param {string} url The url to send the put request to.
+    * @param {object} data The data to put. It will be converted to JSON. If the data contains Knockout observables, they will be converted into normal properties before serialization.
+    * @param {object} [headers] The data to add to the request header.  It will be converted to JSON. If the data contains Knockout observables, they will be converted into normal properties before serialization.
+    * @return {Promise} A promise of the response data.
+    */
+    export function put(url: string, data: Object, headers?: Object): JQueryPromise<any>;
+
+    /**
+    * Makes an HTTP DELETE request.
+    * @method remove
+    * @param {string} url The url to send the delete request to.
+    * @param {object} [query] An optional key/value object to transform into query string parameters.
+    * @param {object} [headers] The data to add to the request header.  It will be converted to JSON. If the data contains Knockout observables, they will be converted into normal properties before serialization.
+    * @return {Promise} A promise of the get response data.
+    */
+    export function remove(url: string, query?: Object, headers?: Object): JQueryPromise<any>;
 }
 
 /**
@@ -1155,7 +936,7 @@ declare module 'plugins/http' {
  * @requires knockout
  */
 declare module 'plugins/observable' {
-    function observable(obj: any, property: string): KnockoutObservable;
+    function observable(obj: any, property: string): KnockoutObservable<any>;
 
     module observable {
         /**
@@ -1171,7 +952,7 @@ declare module 'plugins/observable' {
          * @param {object} [original] The original value of the property. If not specified, it will be retrieved from the object.
          * @returns {KnockoutObservable} The underlying observable.
          */
-        export function convertProperty(obj: any, propertyName: string, original?: any): KnockoutObservable;
+        export function convertProperty(obj: any, propertyName: string, original?: any): KnockoutObservable<any>;
 
         /**
          * Defines a computed property using ES5 getters and setters.
@@ -1311,11 +1092,19 @@ declare module 'plugins/serializer' {
 
     /**
      * Deserialize the JSON.
-     * @param {text} string The JSON string.
+     * @param {text} text The JSON string.
      * @param {DeserializerOptions} settings Settings can specify a reviver, getTypeId function or getConstructor function.
      * @returns {object} The deserialized object.
     */
     export function deserialize<T>(text: string, settings?: DeserializerOptions): T;
+
+    /**
+    * Clone the object.
+    * @param {object} obj The object to clone.
+    * @param {object} [settings] Settings can specify any of the options allowed by the serialize or deserialize methods.
+    * @return {object} The new clone.
+    */
+    export function clone<T>(obj:T, settings?:Object): T;
 }
 
 /**
@@ -1395,324 +1184,609 @@ declare module 'plugins/widget' {
  * @requires jquery
  */
 declare module 'plugins/router' {
-    import activator = require('durandal/activator');
-    import Events = require('durandal/events');
-    import ts = require('durandal/typescript');
-
-    var RootRouter: ts.RootRouter;
-
-    export = RootRouter;
+    var theModule: DurandalRootRouter;
+    export = theModule;
 }
 
-/**
- * Interface definitions used by other modules which were not possible to define within those modules due to TypeScript limitations.
- */
-declare module 'durandal/typescript' {
-    import activator = require('durandal/activator');
-    import history = require('plugins/history');
+interface DurandalEventSubscription {
+    /**
+     * Attaches a callback to the event subscription.
+     * @param {function} callback The callback function to invoke when the event is triggered.
+     * @param {object} [context] An object to use as `this` when invoking the `callback`.
+     * @chainable
+     */
+    then(thenCallback: Function, context?: any): DurandalEventSubscription;
 
     /**
-    * Represents an event subscription.
-    * @class
+     * Attaches a callback to the event subscription.
+     * @param {function} [callback] The callback function to invoke when the event is triggered. If `callback` is not provided, the previous callback will be re-activated.
+     * @param {object} [context] An object to use as `this` when invoking the `callback`.
+     * @chainable
+     */
+    on(thenCallback: Function, context?: any): DurandalEventSubscription;
+
+    /**
+     * Cancels the subscription.
+     * @chainable
+     */
+    off(): DurandalEventSubscription;
+}
+
+interface DurandalEventSupport<T> {
+    /**
+     * Creates a subscription or registers a callback for the specified event.
+     * @param {string} events One or more events, separated by white space.
+     * @returns {Subscription} A subscription is returned.
+     */
+    on(events: string): DurandalEventSubscription;
+
+    /**
+     * Creates a subscription or registers a callback for the specified event.
+     * @param {string} events One or more events, separated by white space.
+     * @param {function} [callback] The callback function to invoke when the event is triggered.
+     * @param {object} [context] An object to use as `this` when invoking the `callback`.
+     * @returns {Events} The events object is returned for chaining.
+     */
+    on(events: string, callback: Function, context?: any): T;
+
+    /**
+     * Removes the callbacks for the specified events.
+     * @param {string} [events] One or more events, separated by white space to turn off. If no events are specified, then the callbacks will be removed.
+     * @param {function} [callback] The callback function to remove. If `callback` is not provided, all callbacks for the specified events will be removed.
+     * @param {object} [context] The object that was used as `this`. Callbacks with this context will be removed.
+     * @chainable
+     */
+    off(events: string, callback: Function, context?: any): T;
+
+    /**
+     * Triggers the specified events.
+     * @param {string} [events] One or more events, separated by white space to trigger.
+     * @chainable
+     */
+    trigger(events: string, ...eventArgs: any[]): T;
+
+    /**
+     * Creates a function that will trigger the specified events when called. Simplifies proxying jQuery (or other) events through to the events object.
+     * @param {string} events One or more events, separated by white space to trigger by invoking the returned function.
+     * @returns {function} Calling the function will invoke the previously specified events on the events object.
+     */
+    proxy(events: string): Function;
+}
+
+interface DurandalEventModule {
+    new (): DurandalEventSupport<Object>;
+    includeIn(targetObject: any): void;
+}
+
+interface DialogButton {
+  text: string;
+  value: any;
+}
+
+interface DurandalAppModule extends DurandalEventSupport<DurandalAppModule> {
+    /**
+     * The title of your application.
     */
-    export interface EventSubscription {
-        /**
-         * Attaches a callback to the event subscription.
-         * @param {function} callback The callback function to invoke when the event is triggered.
-         * @param {object} [context] An object to use as `this` when invoking the `callback`.
-         * @chainable
-         */
-        then(thenCallback: Function, context?: any): EventSubscription;
+    title: string;
 
-        /**
-         * Attaches a callback to the event subscription.
-         * @param {function} [callback] The callback function to invoke when the event is triggered. If `callback` is not provided, the previous callback will be re-activated.
-         * @param {object} [context] An object to use as `this` when invoking the `callback`.
-         * @chainable
-         */
-        on(thenCallback: Function, context?: any): EventSubscription;
+    /**
+     * Shows a dialog via the dialog plugin.
+     * @param {object|string} obj The object (or moduleId) to display as a dialog.
+     * @param {object} [activationData] The data that should be passed to the object upon activation.
+     * @param {string} [context] The name of the dialog context to use. Uses the default context if none is specified.
+     * @returns {Promise} A promise that resolves when the dialog is closed and returns any data passed at the time of closing.
+    */
+    showDialog(obj: any, activationData?: any, context?: string): JQueryPromise<any>;
 
-        /**
-         * Cancels the subscription.
-         * @chainable
-         */
-        off(): EventSubscription;
-    }
+    /**
+     * Closes the dialog associated with the specified object. via the dialog plugin.
+     * @param {object} obj The object whose dialog should be closed.
+     * @param {object} results* The results to return back to the dialog caller after closing.
+     */
+    closeDialog(obj: any, ...results);
 
-    export interface RouteConfiguration {
-        title?: string;
-        moduleId?: string;
-        hash?: string;
-        routePattern?: RegExp;
-        isActive?: KnockoutComputed<boolean>;
-    }
+    /**
+     * Shows a message box via the dialog plugin.
+     * @param {string} message The message to display in the dialog.
+     * @param {string} [title] The title message.
+     * @param {string[]} [options] The options to provide to the user.
+     * @param {boolean} [autoclose] Automatically close the the message box when clicking outside?
+     * @param {Object} [settings] Custom settings for this instance of the messsage box, used to change classes and styles.
+     * @returns {Promise} A promise that resolves when the message box is closed and returns the selected option.
+     */
+    showMessage(message: string, title?: string, options?: string[], autoclose?: boolean, settings?: Object): JQueryPromise<string>;
 
-    export interface RouteInstruction {
-        fragment: string;
-        queryString: string;
-        config: RouteConfiguration;
-        params: any[];
-        queryParams: Object;
-    }
+    /**
+     * Shows a message box.
+     * @param {string} message The message to display in the dialog.
+     * @param {string} [title] The title message.
+     * @param {DialogButton[]} [options] The options to provide to the user.
+     * @param {boolean} [autoclose] Automatically close the the message box when clicking outside?
+     * @param {Object} [settings] Custom settings for this instance of the messsage box, used to change classes and styles.
+     * @returns {Promise} A promise that resolves when the message box is closed and returns the selected option.
+     */
+    showMessage(message: string, title?: string, options?: DialogButton[], autoclose?: boolean, settings?: Object): JQueryPromise<any>;
 
-    export interface RelativeRouteSettings {
-        moduleId?: string;
-        route?: string;
-        fromParent?: boolean;
-    }
+    /**
+     * Configures one or more plugins to be loaded and installed into the application.
+     * @method configurePlugins
+     * @param {object} config Keys are plugin names. Values can be truthy, to simply install the plugin, or a configuration object to pass to the plugin.
+     * @param {string} [baseUrl] The base url to load the plugins from.
+    */
+    configurePlugins(config: Object, baseUrl?: string): void;
 
-    export interface Router {
-        /**
-         * The route handlers that are registered. Each handler consists of a `routePattern` and a `callback`.
-        */
-        handlers: { routePattern: RegExp; callback: (fragment: string) => void; }[];
+    /**
+     * Starts the application.
+     * @returns {promise}
+    */
+    start(): JQueryPromise<any>;
 
-        /**
-         * The route configs that are registered.
-        */
-        routes: RouteConfiguration[];
+    /**
+     * Sets the root module/view for the application.
+     * @param {string} root The root view or module.
+     * @param {string} [transition] The transition to use from the previous root (or splash screen) into the new root.
+     * @param {string} [applicationHost] The application host element id. By default the id 'applicationHost' will be used.
+    */
+    setRoot(root: any, transition?: string, applicationHost?: string): void;
 
-        /**
-         * The active item/screen based on the current navigation state.
-        */
-        activeItem: activator.Activator<any>;
+    /**
+     * Sets the root module/view for the application.
+     * @param {string} root The root view or module.
+     * @param {string} [transition] The transition to use from the previous root (or splash screen) into the new root.
+     * @param {string} [applicationHost] The application host element. By default the id 'applicationHost' will be used.
+    */
+    setRoot(root: any, transition?: string, applicationHost?: HTMLElement): void;
+}
 
-        /**
-         * The route configurations that have been designated as displayable in a nav ui (nav:true).
-        */
-        navigationModel: KnockoutObservableArray<RouteConfiguration>;
+interface DurandalActivatorSettings {
+    /**
+     * The default value passed to an object's deactivate function as its close parameter.
+     * @default true
+    */
+    closeOnDeactivate: boolean;
 
-        /**
-         * Indicates that the router (or a child router) is currently in the process of navigating.
-        */
-        isNavigating: KnockoutComputed<boolean>;
+    /**
+     * Lower-cased words which represent a truthy value.
+     * @default ['yes', 'ok', 'true']
+    */
+    affirmations: string[];
 
-        /**
-         * An observable surfacing the active routing instruction that is currently being processed or has recently finished processing.
-         * The instruction object has `config`, `fragment`, `queryString`, `params` and `queryParams` properties.
-        */
-        activeInstruction: KnockoutObservable<RouteInstruction>;
+    /**
+     * Interprets the response of a `canActivate` or `canDeactivate` call using the known affirmative values in the `affirmations` array.
+     * @param {object} value
+     * @returns {boolean}
+    */
+    interpretResponse(value: any): boolean;
 
-        /**
-         * Parses a query string into an object.
-         * @param {string} queryString The query string to parse.
-         * @returns {object} An object keyed according to the query string parameters.
-         */
-        parseQueryString(queryString: string): Object;
+    /**
+     * Determines whether or not the current item and the new item are the same.
+     * @param {object} currentItem
+     * @param {object} newItem
+     * @param {object} currentActivationData
+     * @param {object} newActivationData
+     * @returns {boolean}
+    */
+    areSameItem(currentItem: any, newItem: any, currentActivationData: any, newActivationData: any): boolean;
 
-        /**
-         * Add a route to be tested when the url fragment changes.
-         * @param {RegEx} routePattern The route pattern to test against.
-         * @param {function} callback The callback to execute when the route pattern is matched.
-         */
-        route(routePattern: RegExp, callback: (fragment: string) => void ): void;
+    /**
+     * Called immediately before the new item is activated.
+     * @param {object} newItem
+    */
+    beforeActivate(newItem: any): any;
 
-        /**
-         * Attempt to load the specified URL fragment. If a route succeeds with a match, returns `true`. If no defined routes matches the fragment, returns `false`.
-         * @param {string} fragment The URL fragment to find a match for.
-         * @returns {boolean} True if a match was found, false otherwise.
-         */
-        loadUrl(fragment: string): boolean;
+    /**
+     * Called immediately after the old item is deactivated.
+     * @param {object} oldItem The previous item.
+     * @param {boolean} close Whether or not the previous item was closed.
+     * @param {function} setter The activate item setter function.
+    */
+    afterDeactivate(oldItem: any, close: boolean, setter: Function): void;
+}
 
-        /**
-         * Updates the document title based on the activated module instance, the routing instruction and the app.title.
-         * @param {object} instance The activated module.
-         * @param {object} instruction The routing instruction associated with the action. It has a `config` property that references the original route mapping config.
-         */
-        updateDocumentTitle(instance: Object, instruction: RouteInstruction): void;
+interface DurandalActivator<T> extends KnockoutComputed<T> {
+    /**
+     * The settings for this activator.
+    */
+    settings: DurandalActivatorSettings;
 
-        /**
-         * Save a fragment into the hash history, or replace the URL state if the
-         * 'replace' option is passed. You are responsible for properly URL-encoding
-         * the fragment in advance.
-         * The options object can contain `trigger: false` if you wish to not have the
-         * route callback be fired, or `replace: true`, if
-         * you wish to modify the current URL without adding an entry to the history.
-         * @param {string} fragment The url fragment to navigate to.
-         * @param {object|boolean} options An options object with optional trigger and replace flags. You can also pass a boolean directly to set the trigger option. Trigger is `true` by default.
-         * @return {boolean} Returns true/false from loading the url.
-         */
-        navigate(fragment: string, trigger?: boolean): boolean;
+    /**
+     * An observable which indicates whether or not the activator is currently in the process of activating an instance.
+     * @returns {boolean}
+    */
+    isActivating: KnockoutObservable<boolean>;
 
-        /**
-         * Save a fragment into the hash history, or replace the URL state if the
-         * 'replace' option is passed. You are responsible for properly URL-encoding
-         * the fragment in advance.
-         * The options object can contain `trigger: false` if you wish to not have the
-         * route callback be fired, or `replace: true`, if
-         * you wish to modify the current URL without adding an entry to the history.
-         * @param {string} fragment The url fragment to navigate to.
-         * @param {object|boolean} options An options object with optional trigger and replace flags. You can also pass a boolean directly to set the trigger option. Trigger is `true` by default.
-         * @return {boolean} Returns true/false from loading the url.
-         */
-        navigate(fragment: string, options: history.NavigationOptions): boolean;
+    /**
+     * Determines whether or not the specified item can be deactivated.
+     * @param {object} item The item to check.
+     * @param {boolean} close Whether or not to check if close is possible.
+     * @returns {promise}
+    */
+    canDeactivateItem(item: T, close: boolean): JQueryPromise<boolean>;
 
-        /**
-         * Navigates back in the browser history.
-         */
-        navigateBack(): void;
+    /**
+     * Deactivates the specified item.
+     * @param {object} item The item to deactivate.
+     * @param {boolean} close Whether or not to close the item.
+     * @returns {promise}
+    */
+    deactivateItem(item: T, close: boolean): JQueryPromise<boolean>;
 
-        /**
-         * Converts a route to a hash suitable for binding to a link's href.
-         * @param {string} route
-         * @returns {string} The hash.
-         */
-        convertRouteToHash(route: string): string;
+    /**
+     * Determines whether or not the specified item can be activated.
+     * @param {object} item The item to check.
+     * @param {object} activationData Data associated with the activation.
+     * @returns {promise}
+    */
+    canActivateItem(newItem: T, activationData?: any): JQueryPromise<boolean>;
 
-        /**
-         * Converts a route to a module id. This is only called if no module id is supplied as part of the route mapping.
-         * @param {string} route
-         * @returns {string} The module id.
-         */
-        convertRouteToModuleId(route: string): string;
+    /**
+     * Activates the specified item.
+     * @param {object} newItem The item to activate.
+     * @param {object} newActivationData Data associated with the activation.
+     * @returns {promise}
+    */
+    activateItem(newItem: T, activationData?: any): JQueryPromise<boolean>;
 
-        /**
-         * Converts a route to a displayable title. This is only called if no title is specified as part of the route mapping.
-         * @method convertRouteToTitle
-         * @param {string} route
-         * @returns {string} The title.
-         */
-        convertRouteToTitle(route: string): string;
+    /**
+     * Determines whether or not the activator, in its current state, can be activated.
+     * @returns {promise}
+    */
+    canActivate(): JQueryPromise<boolean>;
 
-        /**
-         * Maps route patterns to modules.
-         * @param {string} route A route.
-         * @chainable
-         */
-        map(route: string): Router;
+    /**
+     * Activates the activator, in its current state.
+     * @returns {promise}
+    */
+    activate(): JQueryPromise<boolean>;
 
-        /**
-         * Maps route patterns to modules.
-         * @param {string} route A route pattern.
-         * @param {string} moduleId The module id to map the route to.
-         * @chainable
-         */
-        map(route: string, moduleId: string): Router;
+    /**
+     * Determines whether or not the activator, in its current state, can be deactivated.
+     * @returns {promise}
+    */
+    canDeactivate(close: boolean): JQueryPromise<boolean>;
 
-        /**
-         * Maps route patterns to modules.
-         * @param {RegExp} route A route pattern.
-         * @param {string} moduleId The module id to map the route to.
-         * @chainable
-         */
-        map(route: RegExp, moduleId: string): Router;
+    /**
+     * Deactivates the activator, in its current state.
+     * @returns {promise}
+    */
+    deactivate(close: boolean): JQueryPromise<boolean>;
 
-        /**
-         * Maps route patterns to modules.
-         * @param {string} route A route pattern.
-         * @param {RouteConfiguration} config The route's configuration.
-         * @chainable
-         */
-        map(route: string, config: RouteConfiguration): Router;
+    /**
+      * Adds canActivate, activate, canDeactivate and deactivate functions to the provided model which pass through to the corresponding functions on the activator.
+      */
+    includeIn(includeIn: any): void;
 
-        /**
-         * Maps route patterns to modules.
-         * @method map
-         * @param {RegExp} route A route pattern.
-         * @param {RouteConfiguration} config The route's configuration.
-         * @chainable
-         */
-        map(route: RegExp, config: RouteConfiguration): Router;
+    /**
+      * Sets up a collection representing a pool of objects which the activator will activate. See below for details. Activators without an item bool always close their values on deactivate. Activators with an items pool only deactivate, but do not close them.
+      */
+    forItems(items): DurandalActivator<T>;
+}
 
-        /**
-         * Maps route patterns to modules.
-         * @param {RouteConfiguration} config The route's configuration.
-         * @chainable
-         */
-        map(config: RouteConfiguration): Router;
+interface DurandalHistoryOptions {
+    /**
+     * The function that will be called back when the fragment changes.
+     */
+    routeHandler?: (fragment: string) => void;
 
-        /**
-         * Maps route patterns to modules.
-         * @param {RouteConfiguration[]} configs An array of route configurations.
-         * @chainable
-         */
-        map(configs: RouteConfiguration[]): Router;
+    /**
+     * The url root used to extract the fragment when using push state.
+     */
+    root?: string;
 
-        /**
-         * Builds an observable array designed to bind a navigation UI to. The model will exist in the `navigationModel` property.
-         * @param {number} defaultOrder The default order to use for navigation visible routes that don't specify an order. The defualt is 100.
-         * @chainable
-         */
-        buildNavigationModel(defaultOrder?: number): Router;
+    /**
+     * Use hash change when present.
+     * @default true
+     */
+    hashChange?: boolean;
 
-        /**
-         * Configures the router to map unknown routes to modules at the same path.
-         * @chainable
-         */
-        mapUnknownRoutes(): Router;
+    /**
+     * Use push state when present.
+     * @default false
+     */
+    pushState?: boolean;
 
-        /**
-         * Configures the router use the specified module id for all unknown routes.
-         * @param {string} notFoundModuleId Represents the module id to route all unknown routes to.
-         * @param {string} [replaceRoute] Optionally provide a route to replace the url with.
-         * @chainable
-         */
-        mapUnknownRoutes(notFoundModuleId: string, replaceRoute?: string): Router;
+    /**
+     * Prevents loading of the current url when activating history.
+     * @default false
+     */
+    silent?: boolean;
 
-        /**
-         * Configures how the router will handle unknown routes.
-         * @param {function} callback Called back with the route instruction containing the route info. The function can then modify the instruction by adding a moduleId and the router will take over from there.
-         * @chainable
-         */
-        mapUnknownRoutes(callback: (instruction: RouteInstruction) => void ): Router;
+    /**
+     * Override default history init behavior by navigating directly to this route.
+     */
+    startRoute?: string;
+}
 
-        /**
-         * Configures how the router will handle unknown routes.
-         * @param {RouteConfiguration} config The route configuration to use for unknown routes.
-         * @chainable
-         */
-        mapUnknownRoutes(config: RouteConfiguration): Router;
+interface DurandalNavigationOptions {
+    trigger: boolean;
+    replace: boolean;
+}
 
-        /**
-         * Resets the router by removing handlers, routes, event handlers and previously configured options.
-         * @chainable
-         */
-        reset(): Router;
+interface DurandalRouteConfiguration {
+    title?: any;
+    moduleId?: string;
+    hash?: string;
+    /** string or string[] */
+    route?: any;
+    routePattern?: RegExp;
+    isActive?: KnockoutComputed<boolean>;
+    nav?: any;
+    hasChildRoutes?: boolean;
+    viewUrl?:string;
+}
 
-        /**
-         * Makes all configured routes and/or module ids relative to a certain base url.
-         * @param {string} settings The value is used as the base for routes and module ids.
-         * @chainable
-         */
-        makeRelative(settings: string): Router;
+interface DurandalRouteInstruction {
+    fragment: string;
+    queryString: string;
+    config: DurandalRouteConfiguration;
+    params: any[];
+    queryParams: Object;
+}
 
-        /**
-         * Makes all configured routes and/or module ids relative to a certain base url.
-         * @param {RelativeRouteSettings} settings If an object, you can specify `route` and `moduleId` separately. In place of specifying route, you can set `fromParent:true` to make routes automatically relative to the parent router's active route.
-         * @chainable
-         */
-        makeRelative(settings: RelativeRouteSettings): Router;
+interface DurandalRelativeRouteSettings {
+    moduleId?: string;
+    route?: string;
+    fromParent?: boolean;
+}
 
-        /**
-         * Creates a child router.
-         * @returns {Router} The child router.
-         */
-        createChildRouter(): Router;
+interface DurandalRouterBase<T> extends DurandalEventSupport<T> {
+    /**
+     * The route handlers that are registered. Each handler consists of a `routePattern` and a `callback`.
+    */
+    handlers: { routePattern: RegExp; callback: (fragment: string) => void; }[];
 
-        /**
-         * Inspects routes and modules before activation. Can be used to protect access by cancelling navigation or redirecting.
-         * @param {object} instance The module instance that is about to be activated by the router.
-         * @param {object} instruction The route instruction. The instruction object has config, fragment, queryString, params and queryParams properties.
-         * @returns {Promise|Boolean|String} If a boolean, determines whether or not the route should activate or be cancelled. If a string, causes a redirect to the specified route. Can also be a promise for either of these value types.
-         */
-        guardRoute?:(instance:Object, instruction:RouteInstruction) => any;
-    }
+    /**
+     * The route configs that are registered.
+    */
+    routes: DurandalRouteConfiguration[];
 
-    export interface RootRouter extends Router {
-        /**
-         * Activates the router and the underlying history tracking mechanism.
-         * @returns {Promise} A promise that resolves when the router is ready.
-         */
-        activate(options?: history.HistoryOptions): JQueryPromise;
+    /**
+     * The active item/screen based on the current navigation state.
+    */
+    activeItem: DurandalActivator<any>;
 
-        /**
-         * Disable history, perhaps temporarily. Not useful in a real app, but possibly useful for unit testing Routers.
-         */
-        deactivate(): void;
+    /**
+     * The route configurations that have been designated as displayable in a nav ui (nav:true).
+    */
+    navigationModel: KnockoutObservableArray<DurandalRouteConfiguration>;
 
-        /**
-         * Installs the router's custom ko binding handler.
-         */
-        install(): void;
-    }
+    /**
+     * Indicates that the router (or a child router) is currently in the process of navigating.
+    */
+    isNavigating: KnockoutComputed<boolean>;
+
+    /**
+     * An observable surfacing the active routing instruction that is currently being processed or has recently finished processing.
+     * The instruction object has `config`, `fragment`, `queryString`, `params` and `queryParams` properties.
+    */
+    activeInstruction: KnockoutObservable<DurandalRouteInstruction>;
+
+    /**
+     * Parses a query string into an object.
+     * @param {string} queryString The query string to parse.
+     * @returns {object} An object keyed according to the query string parameters.
+     */
+    parseQueryString(queryString: string): Object;
+
+    /**
+     * Add a route to be tested when the url fragment changes.
+     * @param {RegEx} routePattern The route pattern to test against.
+     * @param {function} callback The callback to execute when the route pattern is matched.
+     */
+    route(routePattern: RegExp, callback: (fragment: string) => void): void;
+
+    /**
+     * Attempt to load the specified URL fragment. If a route succeeds with a match, returns `true`. If no defined routes matches the fragment, returns `false`.
+     * @param {string} fragment The URL fragment to find a match for.
+     * @returns {boolean} True if a match was found, false otherwise.
+     */
+    loadUrl(fragment: string): boolean;
+
+    /**
+     * Updates the document title based on the activated module instance, the routing instruction and the app.title.
+     * @param {object} instance The activated module.
+     * @param {object} instruction The routing instruction associated with the action. It has a `config` property that references the original route mapping config.
+     */
+    updateDocumentTitle(instance: Object, instruction: DurandalRouteInstruction): void;
+
+    /**
+     * Save a fragment into the hash history, or replace the URL state if the
+     * 'replace' option is passed. You are responsible for properly URL-encoding
+     * the fragment in advance.
+     * The options object can contain `trigger: false` if you wish to not have the
+     * route callback be fired, or `replace: true`, if
+     * you wish to modify the current URL without adding an entry to the history.
+     * @param {string} fragment The url fragment to navigate to.
+     * @param {object|boolean} options An options object with optional trigger and replace flags. You can also pass a boolean directly to set the trigger option. Trigger is `true` by default.
+     * @return {boolean} Returns true/false from loading the url.
+     */
+    navigate(fragment: string, trigger?: boolean): boolean;
+
+    /**
+     * Save a fragment into the hash history, or replace the URL state if the
+     * 'replace' option is passed. You are responsible for properly URL-encoding
+     * the fragment in advance.
+     * The options object can contain `trigger: false` if you wish to not have the
+     * route callback be fired, or `replace: true`, if
+     * you wish to modify the current URL without adding an entry to the history.
+     * @param {string} fragment The url fragment to navigate to.
+     * @param {object|boolean} options An options object with optional trigger and replace flags. You can also pass a boolean directly to set the trigger option. Trigger is `true` by default.
+     * @return {boolean} Returns true/false from loading the url.
+     */
+    navigate(fragment: string, options: DurandalNavigationOptions): boolean;
+
+    /**
+     * Navigates back in the browser history.
+     */
+    navigateBack(): void;
+
+    /**
+     * Converts a route to a hash suitable for binding to a link's href.
+     * @param {string} route
+     * @returns {string} The hash.
+     */
+    convertRouteToHash(route: string): string;
+
+    /**
+     * Converts a route to a module id. This is only called if no module id is supplied as part of the route mapping.
+     * @param {string} route
+     * @returns {string} The module id.
+     */
+    convertRouteToModuleId(route: string): string;
+
+    /**
+     * Converts a route to a displayable title. This is only called if no title is specified as part of the route mapping.
+     * @method convertRouteToTitle
+     * @param {string} route
+     * @returns {string} The title.
+     */
+    convertRouteToTitle(route: string): string;
+
+    /**
+     * Maps route patterns to modules.
+     * @param {string} route A route.
+     * @chainable
+     */
+    map(route: string): T;
+
+    /**
+     * Maps route patterns to modules.
+     * @param {string} route A route pattern.
+     * @param {string} moduleId The module id to map the route to.
+     * @chainable
+     */
+    map(route: string, moduleId: string): T;
+
+    /**
+     * Maps route patterns to modules.
+     * @param {RegExp} route A route pattern.
+     * @param {string} moduleId The module id to map the route to.
+     * @chainable
+     */
+    map(route: RegExp, moduleId: string): T;
+
+    /**
+     * Maps route patterns to modules.
+     * @param {string} route A route pattern.
+     * @param {RouteConfiguration} config The route's configuration.
+     * @chainable
+     */
+    map(route: string, config: DurandalRouteConfiguration): T;
+
+    /**
+     * Maps route patterns to modules.
+     * @method map
+     * @param {RegExp} route A route pattern.
+     * @param {RouteConfiguration} config The route's configuration.
+     * @chainable
+     */
+    map(route: RegExp, config: DurandalRouteConfiguration): T;
+
+    /**
+     * Maps route patterns to modules.
+     * @param {RouteConfiguration} config The route's configuration.
+     * @chainable
+     */
+    map(config: DurandalRouteConfiguration): T;
+
+    /**
+     * Maps route patterns to modules.
+     * @param {RouteConfiguration[]} configs An array of route configurations.
+     * @chainable
+     */
+    map(configs: DurandalRouteConfiguration[]): T;
+
+    /**
+     * Builds an observable array designed to bind a navigation UI to. The model will exist in the `navigationModel` property.
+     * @param {number} defaultOrder The default order to use for navigation visible routes that don't specify an order. The defualt is 100.
+     * @chainable
+     */
+    buildNavigationModel(defaultOrder?: number): T;
+
+    /**
+     * Configures the router to map unknown routes to modules at the same path.
+     * @chainable
+     */
+    mapUnknownRoutes(): T;
+
+    /**
+     * Configures the router use the specified module id for all unknown routes.
+     * @param {string} notFoundModuleId Represents the module id to route all unknown routes to.
+     * @param {string} [replaceRoute] Optionally provide a route to replace the url with.
+     * @chainable
+     */
+    mapUnknownRoutes(notFoundModuleId: string, replaceRoute?: string): T;
+
+    /**
+     * Configures how the router will handle unknown routes.
+     * @param {function} callback Called back with the route instruction containing the route info. The function can then modify the instruction by adding a moduleId and the router will take over from there.
+     * @chainable
+     */
+    mapUnknownRoutes(callback: (instruction: DurandalRouteInstruction) => void): T;
+
+    /**
+     * Configures how the router will handle unknown routes.
+     * @param {RouteConfiguration} config The route configuration to use for unknown routes.
+     * @chainable
+     */
+    mapUnknownRoutes(config: DurandalRouteConfiguration): T;
+
+    /**
+     * Resets the router by removing handlers, routes, event handlers and previously configured options.
+     * @chainable
+     */
+    reset(): T;
+
+    /**
+     * Makes all configured routes and/or module ids relative to a certain base url.
+     * @param {string} settings The value is used as the base for routes and module ids.
+     * @chainable
+     */
+    makeRelative(settings: string): T;
+
+    /**
+     * Makes all configured routes and/or module ids relative to a certain base url.
+     * @param {RelativeRouteSettings} settings If an object, you can specify `route` and `moduleId` separately. In place of specifying route, you can set `fromParent:true` to make routes automatically relative to the parent router's active route.
+     * @chainable
+     */
+    makeRelative(settings: DurandalRelativeRouteSettings): T;
+
+    /**
+     * Creates a child router.
+     * @returns {Router} The child router.
+     */
+    createChildRouter(): T;
+
+    /**
+     * Inspects routes and modules before activation. Can be used to protect access by cancelling navigation or redirecting.
+     * @param {object} instance The module instance that is about to be activated by the router.
+     * @param {object} instruction The route instruction. The instruction object has config, fragment, queryString, params and queryParams properties.
+     * @returns {Promise|Boolean|String} If a boolean, determines whether or not the route should activate or be cancelled. If a string, causes a redirect to the specified route. Can also be a promise for either of these value types.
+     */
+    guardRoute?: (instance: Object, instruction: DurandalRouteInstruction) => any;
+}
+
+interface DurandalRouter extends DurandalRouterBase<DurandalRouter> { }
+
+interface DurandalRootRouter extends DurandalRouterBase<DurandalRootRouter> {
+    /**
+     * Makes the RegExp generated for routes case sensitive, rather than the default of case insensitive.
+     */
+    makeRoutesCaseSensitive(): void;
+
+    /**
+     * Activates the router and the underlying history tracking mechanism.
+     * @returns {Promise} A promise that resolves when the router is ready.
+     */
+    activate(options?: DurandalHistoryOptions): JQueryPromise<any>;
+
+    /**
+     * Disable history, perhaps temporarily. Not useful in a real app, but possibly useful for unit testing Routers.
+     */
+    deactivate(): void;
+
+    /**
+     * Installs the router's custom ko binding handler.
+     */
+    install(): void;
 }
